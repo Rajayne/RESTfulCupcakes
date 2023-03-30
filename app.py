@@ -16,7 +16,24 @@ debug = DebugToolbarExtension(app)
 
 connect_db(app)
 
-@app.route('/api/cupcakes')
+@app.route("/api/cupcakes", methods=["GET"])
 def list_cupcakes():
     all_cupcakes = [cupcake.serialize() for cupcake in Cupcake.query.all()]
     return jsonify(cupcakes=all_cupcakes)
+
+@app.route("/api/cupcakes/<int:id>", methods=["GET"])
+def get_cupcake(id):
+    cupcake = Cupcake.query.get_or_404(id)
+    return jsonify(cupcake=cupcake.serialize())
+
+@app.route("/api/cupcakes/<int:id>", methods=["GET"])
+def add_cupcake():
+    new_cupcake = Cupcake(flavor=request.json["flavor"],
+                          size=request.json["size"],
+                          rating=request.json["rating"],
+                          image=request.json["image"])
+    db.session.add(new_cupcake)
+    db.commit()
+
+    response_json = jsonify(new_cupcake.serialize())
+    return (response_json, 201)
