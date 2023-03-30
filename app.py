@@ -48,7 +48,7 @@ def update_cupcake(id):
     db.session.commit()
     return jsonify(cupcake=cupcake.serialize())
 
-@app.route("/api/characters/<int:id>", methods=["DELETE"])
+@app.route("/api/cupcakes/<int:id>", methods=["DELETE"])
 def delete_character(id):
     cupcake = Cupcake.query.get_or_404(id)
     db.session.delete(cupcake)
