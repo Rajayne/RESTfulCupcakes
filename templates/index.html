@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="/static/app.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cupcakes</title>
+</head>
+<body>
+    <h1>All Cupcakes</h1>
+    <ul class="cupcake-list">
+        {% for cupcake in cupcakes %}
+        <li>
+            <img src="{{cupcake.image}}" height="200" width="200">
+            {{cupcake.flavor}} / {{cupcake.size}} / {{cupcake.rating}}
+            <button class="delete-cupcake" data-id="{{cupcake.id}}">X</button>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Add New Cupcake</h3>
+    <form class="add-cupcake-form" method="POST">
+        <input type="text" id="form-flavor" name="flavor" placeholder="Cupcake Flavor">
+        <input type="text" id="form-size" name="size" placeholder="Cupcake Size">
+        <input type="text" id="form-rating" name="rating" placeholder="Cupcake Rating">
+        <input type="text" id="form-image" name="image" placeholder="Cupcake Image">
+        <br><br>
+        <button>Add!</button>
+    </form>
+    
+    <script src="https://unpkg.com/jquery"></script>
+    <script src="https://unpkg.com/axios/dist/axios.js"></script>
+    <script src="static/app.js"></script>
+</body>
+</html>

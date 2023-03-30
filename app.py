@@ -16,6 +16,11 @@ debug = DebugToolbarExtension(app)
 
 connect_db(app)
 
+@app.route("/")
+def index_page():
+    cupcakes = Cupcake.query.all()
+    return render_template("index.html", cupcakes=cupcakes)
+
 @app.route("/api/cupcakes", methods=["GET"])
 def list_cupcakes():
     all_cupcakes = [cupcake.serialize() for cupcake in Cupcake.query.all()]
@@ -28,10 +33,11 @@ def get_cupcake(id):
 
 @app.route("/api/cupcakes", methods=["POST"])
 def add_cupcake():
-    cupcake = Cupcake(flavor=request.json["flavor"],
-                          size=request.json["size"],
-                          rating=request.json["rating"],
-                          image=request.json["image"])
+    data = request.json
+    cupcake = Cupcake(flavor=data["flavor"],
+                          size=data["size"],
+                          rating=data["rating"],
+                          image=data["image"] or None)
     db.session.add(cupcake)
     db.session.commit()
 
