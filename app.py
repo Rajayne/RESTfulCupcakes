@@ -26,14 +26,14 @@ def get_cupcake(id):
     cupcake = Cupcake.query.get_or_404(id)
     return jsonify(cupcake=cupcake.serialize())
 
-@app.route("/api/cupcakes/<int:id>", methods=["GET"])
+@app.route("/api/cupcakes", methods=["POST"])
 def add_cupcake():
-    new_cupcake = Cupcake(flavor=request.json["flavor"],
+    cupcake = Cupcake(flavor=request.json["flavor"],
                           size=request.json["size"],
                           rating=request.json["rating"],
                           image=request.json["image"])
-    db.session.add(new_cupcake)
-    db.commit()
+    db.session.add(cupcake)
+    db.session.commit()
 
-    response_json = jsonify(new_cupcake.serialize())
+    response_json = jsonify(cupcake=cupcake.serialize())
     return (response_json, 201)
